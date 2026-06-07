@@ -1,12 +1,12 @@
 {
-  "name": "PhySound",
+  "name": "PhySound Acoustics Data+Cal+Visualizer",
   "short_name": "PhySound",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07111f",
   "theme_color": "#0f172a",
-  "description": "นวัตกรรมการสอนฟิสิกส์เรื่องเสียงด้วยกิจกรรม 5E",
+  "description": "แอปเก็บข้อมูลเสียงพร้อม Calibration Check และ Sound Wave Visualizer แบบ Observation Mode",
   "icons": [
     {
       "src": "icon-192.png",

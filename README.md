@@ -1,67 +1,38 @@
-# PhySound
+# PhySound Acoustics Data+Cal+Visualizer GitHub v5
 
-แอปเว็บ/PWA สำหรับใช้เป็นนวัตกรรมการสอนฟิสิกส์เรื่องเสียง  
-ออกแบบสำหรับการจัดการเรียนรู้แบบสืบเสาะหาความรู้ 5E และพร้อมอัปขึ้น GitHub Pages
+เวอร์ชันนี้เพิ่ม **Sound Wave Visualizer** แบบ Observation Mode ตามแนวคิดของครู: แอปแสดงภาพจำลองและให้ปรับค่าพารามิเตอร์เท่านั้น แต่ไม่ใส่ข้อความชี้นำ และไม่สรุปความสัมพันธ์ให้นักเรียน
 
-## ไฟล์ในชุดนี้
+## สิ่งที่เพิ่มใน v5
 
-```text
-PhySound_Ready_GitHub_v1/
-├── index.html
-├── manifest.json
-├── sw.js
-├── icon.png
-├── icon-192.png
-├── icon-512.png
-└── README.md
-```
+- Sound Wave Visualizer
+- Longitudinal Wave
+- Pressure Variation
+- Displacement + Pressure
+- Longitudinal / Transverse Compare
+- Superposition
+- Beats Visualizer
+- Standing Wave in Air Column
+- Resonance Visualizer
+- Harmonics / Timbre
+- Doppler Visualizer
+- Play / Pause / Reset
+- Export Visualizer Image เป็น PNG
 
-## วิธีอัปขึ้น GitHub Pages
+## หลักคิด
 
-1. สร้าง repository ใหม่ เช่น `PhySound`
-2. แตกไฟล์ ZIP
-3. เข้าไปในโฟลเดอร์ `PhySound_Ready_GitHub_v1`
-4. อัปโหลดไฟล์ทั้งหมดขึ้น GitHub โดยให้ `index.html` อยู่หน้าแรกของ repository
-5. ไปที่ `Settings` → `Pages`
-6. เลือก `Deploy from a branch`
-7. เลือก branch `main` และ folder `/root`
-8. กด `Save`
+แอปทำหน้าที่:
+- แสดงภาพจำลองให้สังเกต
+- ให้ปรับค่าพารามิเตอร์พื้นฐาน
+- เก็บข้อมูลเสียงจริง
+- ตรวจสอบความคลาดเคลื่อนของอุปกรณ์
+- ส่งออกข้อมูลดิบและภาพกราฟ
 
-ลิงก์จะประมาณนี้:
+แอปไม่ทำ:
+- ชี้นำประเด็นแทนครู
+- สรุปผลให้นักเรียน
+- ทำ Dashboard วิเคราะห์กลุ่ม
+- ทำ Report Pack อัตโนมัติ
 
-```text
-https://cacarosjampa.github.io/PhySound/
-```
+## วิธีอัป GitHub Pages
 
-## วิธีทดสอบบนเครื่องก่อนอัปโหลด
-
-เปิด Terminal/Command Prompt ในโฟลเดอร์นี้ แล้วรัน:
-
-```bash
-python -m http.server 8000
-```
-
-จากนั้นเปิด:
-
-```text
-http://localhost:8000
-```
-
-## ฟังก์ชันหลัก
-
-- วิเคราะห์รูปคลื่นเสียงจากไมโครโฟน
-- วิเคราะห์สเปกตรัมความถี่
-- ประมาณค่าความถี่หลัก
-- คำนวณคาบจากความถี่
-- ประมาณ RMS / amplitude
-- ประมาณระดับเสียง dB
-- บันทึกผลการทดลองลงตาราง
-- ดาวน์โหลดผลเป็นไฟล์ CSV
-- ทดลองบีตส์จากเสียง 2 ความถี่
-- เครื่องคำนวณ v = fλ, f = 1/T, β = 10log(I/I₀)
-- ใบกิจกรรมดิจิทัลตามกระบวนการ 5E
-- คู่มือครูโดยย่อสำหรับใช้ประกอบงาน ค.ศ.4
-
-## หมายเหตุ
-
-ค่า dB เป็นค่าประมาณเพื่อการเรียนรู้ ไม่ใช่ค่ามาตรฐานจากเครื่องวัดระดับเสียงเชิงวิศวกรรม
+อัปโหลดไฟล์ทั้งหมดในโฟลเดอร์นี้ขึ้น repository แล้วเปิด Settings → Pages → Deploy from branch → main / root
