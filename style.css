@@ -1885,3 +1885,119 @@ main.wrap{
   .longitudinalFocusPage .embeddedPlayerBar .playerBtn{width:46px !important; height:46px !important;}
   .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:56px !important; height:56px !important;}
 }
+
+
+/* v5.58: make particle graph the visual focus on phones */
+.longitudinalFocusPage .vizMediaFrame .vizSingleModeLabel{padding:10px 14px !important;}
+.longitudinalFocusPage .longitudinalMainViz{padding-bottom:8px !important;}
+.longitudinalFocusPage .embeddedPlayerBar{margin-top:4px !important; min-height:62px !important; padding:6px 10px 8px !important;}
+@media (max-width:760px){
+  .longitudinalFocusPage .vizMediaFrame .vizSingleModeLabel{padding:8px 12px !important;}
+  .longitudinalFocusPage .vizMediaFrame canvas{min-height:250px !important; aspect-ratio:1200/330 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{margin-top:2px !important; min-height:56px !important; padding:5px 10px 6px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:18px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn{width:48px !important; height:48px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:58px !important; height:58px !important;}
+}
+@media (max-width:950px) and (orientation:landscape){
+  .longitudinalFocusPage .vizMediaFrame .vizSingleModeLabel{padding:8px 12px !important;}
+  .longitudinalFocusPage .vizMediaFrame canvas{min-height:220px !important; aspect-ratio:1200/300 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{margin-top:2px !important; min-height:52px !important; padding:4px 8px 6px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:14px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn{width:44px !important; height:44px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:52px !important; height:52px !important;}
+}
+
+
+/* v5.59: graph priority + smaller parameter panel */
+.longitudinalFocusPage .neonControlViz{padding:20px 16px !important;}
+.longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:1.8rem !important;line-height:1.08 !important;}
+.longitudinalFocusPage .neonControlViz .panelSubtext{font-size:.82rem !important;line-height:1.45 !important;margin-bottom:6px !important;}
+.longitudinalFocusPage .neonParamRow{padding:14px 0 !important;gap:10px !important;}
+.longitudinalFocusPage .paramIcon{width:44px !important;height:44px !important;font-size:1.35rem !important;}
+.longitudinalFocusPage .paramText label{font-size:.88rem !important;line-height:1.22 !important;}
+.longitudinalFocusPage .paramText small{font-size:.72rem !important;line-height:1.1 !important;}
+.longitudinalFocusPage .neonParamRow .valueBadge{min-width:74px !important;font-size:.9rem !important;padding:7px 10px !important;}
+.longitudinalFocusPage .neonParamRow input[type="range"]{margin-top:4px !important;}
+@media (max-width:760px){
+  .longitudinalFocusPage .vizMediaFrame canvas{min-height:200px !important; aspect-ratio:1200/285 !important;}
+  .longitudinalFocusPage .vizMediaFrame .vizSingleModeLabel{padding:8px 12px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{min-height:52px !important; padding:5px 10px 6px !important; margin-top:0 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:14px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn{width:44px !important;height:44px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:54px !important;height:54px !important;}
+  .longitudinalFocusPage .explainDetails{margin-top:8px !important;}
+  .longitudinalFocusPage .neonControlViz{padding:16px 14px !important;}
+  .longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:1.55rem !important;}
+  .longitudinalFocusPage .neonControlViz .panelSubtext{font-size:.74rem !important;margin-bottom:4px !important;}
+  .longitudinalFocusPage .neonParamRow{grid-template-columns:40px 1fr 78px !important; grid-template-areas:"icon text value" ". slider slider" !important; padding:10px 0 !important; gap:8px 10px !important;}
+  .longitudinalFocusPage .paramIcon{width:36px !important;height:36px !important;font-size:1.05rem !important;}
+  .longitudinalFocusPage .paramText label{font-size:.8rem !important;}
+  .longitudinalFocusPage .paramText small{font-size:.67rem !important;}
+  .longitudinalFocusPage .neonParamRow .valueBadge{min-width:66px !important;font-size:.82rem !important;padding:6px 8px !important;}
+}
+@media (max-width:950px) and (orientation:landscape){
+  .longitudinalFocusPage .vizMediaFrame canvas{min-height:170px !important; aspect-ratio:1200/250 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{min-height:46px !important; padding:4px 8px 5px !important; margin-top:0 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:12px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn{width:40px !important;height:40px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:48px !important;height:48px !important;}
+  .longitudinalFocusPage .longitudinalFocusGrid{grid-template-columns:minmax(0,1.95fr) minmax(180px,.6fr) !important; gap:12px !important;}
+  .longitudinalFocusPage .neonControlViz{padding:14px 12px !important;}
+  .longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:1.2rem !important;}
+  .longitudinalFocusPage .panelSubtext{display:none !important;}
+  .longitudinalFocusPage .neonParamRow{padding:8px 0 !important; gap:6px 8px !important;}
+  .longitudinalFocusPage .paramIcon{width:30px !important;height:30px !important;font-size:.9rem !important;}
+  .longitudinalFocusPage .paramText label{font-size:.74rem !important;}
+  .longitudinalFocusPage .paramText small{font-size:.62rem !important;}
+  .longitudinalFocusPage .neonParamRow .valueBadge{min-width:58px !important;font-size:.74rem !important;padding:4px 7px !important;}
+}
+
+
+/* v5.60 final overrides: tighter labels, smaller parameters, equal player buttons */
+.longitudinalFocusPage .longitudinalFocusGrid{grid-template-columns:minmax(0,2.35fr) minmax(150px,.45fr) !important;gap:12px !important;align-items:start !important;}
+.longitudinalFocusPage .vizMediaFrame canvas{aspect-ratio:1200/300 !important; min-height:260px !important;}
+.longitudinalFocusPage .embeddedPlayerBar{margin-top:2px !important; min-height:52px !important; padding:4px 8px 6px !important;}
+.longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:14px !important;}
+.longitudinalFocusPage .embeddedPlayerBar .playerBtn, .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:44px !important;height:44px !important;transform:none !important;}
+.longitudinalFocusPage .embeddedPlayerBar .playerPrimary .playerGlyph{font-size:1.05rem !important;}
+.longitudinalFocusPage .embeddedPlayerBar .playerGlyph{font-size:1.0rem !important;}
+.longitudinalFocusPage .neonControlViz{padding:14px 12px !important;}
+.longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:1.1rem !important;line-height:1.12 !important;}
+.longitudinalFocusPage .panelSubtext{font-size:.68rem !important;line-height:1.35 !important;margin-bottom:2px !important;}
+.longitudinalFocusPage .neonParamRow{padding:6px 0 !important;gap:5px 7px !important;grid-template-columns:30px 1fr 58px !important;grid-template-areas:"icon text value" ". slider slider" !important;}
+.longitudinalFocusPage .paramIcon{width:28px !important;height:28px !important;font-size:.85rem !important;}
+.longitudinalFocusPage .paramText label{font-size:.72rem !important;line-height:1.18 !important;}
+.longitudinalFocusPage .paramText small{font-size:.60rem !important;line-height:1.05 !important;}
+.longitudinalFocusPage .neonParamRow .valueBadge{min-width:54px !important;font-size:.72rem !important;padding:4px 6px !important;border-radius:12px !important;}
+.longitudinalFocusPage .neonParamRow input[type="range"]{margin-top:1px !important;}
+.longitudinalFocusPage .explainDetails{margin-top:6px !important;}
+@media (max-width:760px){
+  .longitudinalFocusPage .vizMediaFrame canvas{aspect-ratio:1200/255 !important; min-height:235px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{min-height:48px !important;padding:3px 8px 5px !important;margin-top:1px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:12px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn, .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:42px !important;height:42px !important;}
+  .longitudinalFocusPage .neonControlViz{padding:12px 10px !important;}
+  .longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:1.02rem !important;}
+  .longitudinalFocusPage .panelSubtext{display:none !important;}
+  .longitudinalFocusPage .neonParamRow{grid-template-columns:28px 1fr 54px !important;padding:5px 0 !important;gap:4px 6px !important;}
+  .longitudinalFocusPage .paramIcon{width:26px !important;height:26px !important;font-size:.78rem !important;}
+  .longitudinalFocusPage .paramText label{font-size:.68rem !important;}
+  .longitudinalFocusPage .paramText small{font-size:.57rem !important;}
+  .longitudinalFocusPage .neonParamRow .valueBadge{min-width:50px !important;font-size:.68rem !important;padding:3px 5px !important;}
+}
+@media (max-width:950px) and (orientation:landscape){
+  .longitudinalFocusPage .longitudinalFocusGrid{grid-template-columns:minmax(0,2.75fr) minmax(135px,.35fr) !important;gap:10px !important;}
+  .longitudinalFocusPage .vizMediaFrame canvas{aspect-ratio:1200/230 !important;min-height:160px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{min-height:44px !important;padding:3px 8px 4px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{gap:10px !important;}
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn, .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{width:38px !important;height:38px !important;}
+  .longitudinalFocusPage .neonControlViz{padding:10px !important;}
+  .longitudinalFocusPage .neonControlViz .panelTitleStack h3{font-size:.96rem !important;}
+  .longitudinalFocusPage .panelSubtext{display:none !important;}
+  .longitudinalFocusPage .neonParamRow{grid-template-columns:24px 1fr 48px !important;padding:4px 0 !important;gap:4px 6px !important;}
+  .longitudinalFocusPage .paramIcon{width:22px !important;height:22px !important;font-size:.72rem !important;}
+  .longitudinalFocusPage .paramText label{font-size:.62rem !important;line-height:1.1 !important;}
+  .longitudinalFocusPage .paramText small{font-size:.52rem !important;line-height:1.0 !important;}
+  .longitudinalFocusPage .neonParamRow .valueBadge{min-width:44px !important;font-size:.62rem !important;padding:2px 4px !important;}
+}
