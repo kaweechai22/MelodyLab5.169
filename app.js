@@ -430,12 +430,13 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   const pad = 46;
   const eqX = w * 0.50;
 
-  // Particle band is above x-axis, compact and close to design mockup.
+  // Particle band is above x-axis, compact and now placed lower so the graph
+  // fills the stage better on mobile and reduces unused space under the x-axis.
   const rows = 4;
   const rowGap = 16;
   const particleRadius = 6.8;
-  const y0 = h * 0.42;
-  const axisY = y0 + rowGap * 3 + 24;
+  const y0 = Math.max(230, h * 0.56);
+  const axisY = y0 + rowGap * 3 + 18;
   const xMin = pad + 32;
   const xMax = w - pad - 54;
 
@@ -459,7 +460,7 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
     g.addColorStop(.5,col);
     g.addColorStop(1,"rgba(0,0,0,0)");
     ctx.fillStyle=g;
-    ctx.fillRect(bx-58,108,116,Math.max(130, axisY - 74));
+    ctx.fillRect(bx-58,108,116,Math.max(150, axisY - 88));
   });
 
   // Title label on canvas
@@ -494,14 +495,14 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   ctx.setLineDash([8,8]);
   ctx.lineWidth=2;
   ctx.beginPath();
-  ctx.moveTo(eqX, y0 - 70);
+  ctx.moveTo(eqX, y0 - 74);
   ctx.lineTo(eqX, y0 + rowGap*3 + 16);
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle="rgba(255,255,255,.95)";
   ctx.textAlign="center";
   ctx.font="16px Sarabun, system-ui, sans-serif";
-  ctx.fillText("ตำแหน่งสมดุล", eqX, y0 - 70);
+  ctx.fillText("ตำแหน่งสมดุล", eqX, y0 - 74);
   ctx.restore();
 
 

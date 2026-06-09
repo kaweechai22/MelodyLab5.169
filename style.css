@@ -1841,3 +1841,15 @@ main.wrap{
   .longitudinalFocusPage .neonParamRow input[type="range"]{grid-area:slider}
   .longitudinalFocusPage .neonParamRow .valueBadge{min-width:72px !important;font-size:.82rem !important;padding:6px 9px !important}
 }
+
+
+/* v5.55: make longitudinal graph more prominent by tightening empty space */
+.longitudinalFocusPage .embeddedPlayerBar{margin-top:6px !important;}
+@media(max-width:760px){
+  .longitudinalFocusPage .vizMediaFrame canvas{aspect-ratio:1200 / 450 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{margin-top:4px !important;}
+}
+@media(max-width:950px) and (orientation:landscape){
+  .longitudinalFocusPage .vizMediaFrame canvas{aspect-ratio:1200 / 410 !important;}
+  .longitudinalFocusPage .embeddedPlayerBar{margin-top:4px !important;}
+}
