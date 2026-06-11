@@ -72,24 +72,40 @@ function drawRebuiltTopic(ctx,c,p,w,h,mode){
     const freq=vNum("vizFreq",1000);
     const amp=vNum("vizAmp",0.80);
     const wallType=vSel("vizWallType","rigid");
-    const reflRatio = wallType==="rigid" ? 0.95 : 0.55;
+    const reflRatio = wallType==="rigid" ? 0.95 : 0.45;
+    const reflAlpha = wallType==="rigid" ? 1.00 : 0.45;
+    const reflWidth = wallType==="rigid" ? 3.4 : 2.0;
     vText("vizAngleLabel",angle.toFixed(0)+"°");
-    vText("vizFreqLabel",freq>=1000?(freq/1000).toFixed(2).replace(/\.00$/,"")+" kHz":freq.toFixed(0)+" Hz");
+    vText("vizFreqLabel",freq>=1000?(freq/1000).toFixed(2).replace(/\.00$/,'')+" kHz":freq.toFixed(0)+" Hz");
     vText("vizAmpLabel",amp.toFixed(2));
     vText("vizWallTypeLabel",wallType==="rigid"?"Rigid":"Soft");
     panel=corePanel(ctx,w,h,"Sound Reflection (การสะท้อนของเสียง)");
 
-    // Layout coordinates: match the reference mockup with source left, wall right, normal and reflected ray.
-    const srcX=panel.x+105, srcY=panel.y+panel.h*0.40;
+    // Geometry: vertical wall => normal is horizontal through point of incidence.
+    const srcX=panel.x+92, srcY=panel.y+panel.h*0.38;
+    const speakerMouthX = srcX + 30;
+    const speakerMouthY = srcY;
     const wallX=panel.x+panel.w-150;
     const hitY=panel.y+panel.h*0.48;
-    const rayLen=wallX-srcX-72;
-    const theta=angle*Math.PI/180;
-    const incidentY=hitY - Math.tan(theta)*rayLen*0.42;
-    const reflectedY=hitY + Math.tan(theta)*rayLen*0.42;
-    const inX=srcX+78, inY=incidentY;
-    const outX=srcX+210, outY=reflectedY;
-    const rayColor="#ff5cab", reflColor="#7cff7c";
+    const topLimit = panel.y+74;
+    const bottomLimit = panel.y+panel.h-74;
+
+    const thetaReq = angle*Math.PI/180;
+    let inX = speakerMouthX;
+    let inY = hitY - Math.tan(thetaReq)*(wallX-inX);
+    // Keep the visible ray inside the panel while preserving relation to the speaker zone.
+    inY = lim(inY, topLimit, bottomLimit);
+    const thetaUsed = Math.atan2(Math.abs(hitY-inY), Math.abs(wallX-inX));
+    const thetaDeg = thetaUsed*180/Math.PI;
+
+    let outX = panel.x+200;
+    let outY = hitY + Math.tan(thetaUsed)*(wallX-outX);
+    outY = lim(outY, topLimit, bottomLimit);
+    outX = wallX - Math.abs((outY-hitY)/Math.tan(thetaUsed||0.0001));
+    outX = Math.max(outX, panel.x+150);
+
+    const rayColor="rgba(255,92,171,0.98)";
+    const reflColor = wallType==="rigid" ? `rgba(124,255,124,${reflAlpha})` : `rgba(124,255,124,${reflAlpha})`;
 
     // Speaker + expanding sound wavefronts.
     drawSpeaker(ctx,srcX,srcY,0.95);
@@ -109,13 +125,19 @@ function drawRebuiltTopic(ctx,c,p,w,h,mode){
     // Rigid/soft wall with hatch texture.
     ctx.save();
     const wallGrad=ctx.createLinearGradient(wallX-15,panel.y,wallX+24,panel.y);
-    wallGrad.addColorStop(0,"rgba(255,255,255,.12)");
-    wallGrad.addColorStop(.5,"rgba(255,255,255,.48)");
-    wallGrad.addColorStop(1,"rgba(255,255,255,.10)");
+    if(wallType==="rigid"){
+      wallGrad.addColorStop(0,"rgba(255,255,255,.12)");
+      wallGrad.addColorStop(.5,"rgba(255,255,255,.48)");
+      wallGrad.addColorStop(1,"rgba(255,255,255,.10)");
+    } else {
+      wallGrad.addColorStop(0,"rgba(180,210,255,.08)");
+      wallGrad.addColorStop(.5,"rgba(140,170,210,.22)");
+      wallGrad.addColorStop(1,"rgba(180,210,255,.08)");
+    }
     ctx.fillStyle=wallGrad;
     roundRect(ctx,wallX-12,panel.y+40,34,panel.h-96,4);
     ctx.fill();
-    ctx.strokeStyle="rgba(255,255,255,.42)";
+    ctx.strokeStyle=wallType==="rigid"?"rgba(255,255,255,.42)":"rgba(160,190,220,.30)";
     ctx.lineWidth=1.4;
     for(let y=panel.y+46;y<panel.y+panel.h-55;y+=16){
       ctx.beginPath();
@@ -125,65 +147,94 @@ function drawRebuiltTopic(ctx,c,p,w,h,mode){
     }
     ctx.restore();
 
-    // Normal line.
+    // Normal line = line perpendicular to the wall, passing through point of incidence.
     ctx.save();
     ctx.setLineDash([7,7]);
-    ctx.strokeStyle="rgba(255,255,255,.70)";
+    ctx.strokeStyle="rgba(255,255,255,.72)";
     ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(wallX-165,hitY); ctx.lineTo(wallX+75,hitY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(wallX-178,hitY); ctx.lineTo(wallX+62,hitY); ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle="#e8f5ff";
     ctx.font="bold 13px Sarabun, system-ui";
     ctx.textAlign="center";
-    ctx.fillText("Normal",wallX-116,hitY-84);
+    ctx.fillText("Normal",wallX-112,hitY-88);
     ctx.font="12px Sarabun, system-ui";
-    ctx.fillText("(เส้นตั้งฉาก)",wallX-116,hitY-66);
+    ctx.fillText("(เส้นแนวฉาก)",wallX-112,hitY-70);
     ctx.restore();
 
     // Incident and reflected rays.
-    coreArrow(ctx,inX,inY,wallX,hitY,rayColor,3.5);
-    coreArrow(ctx,wallX,hitY,outX,outY,reflColor,3.5);
+    coreArrow(ctx,inX,inY,wallX,hitY,rayColor,3.4);
+    coreArrow(ctx,wallX,hitY,outX,outY,reflColor,reflWidth);
+
+    // Reflected wavefronts: they must originate at the wall and move outward into the air.
+    // This avoids the misconception that the reflected wave is still travelling toward the wall.
+    ctx.save();
+    const reflectedDir = Math.PI - thetaUsed; // direction from wall back into the medium
+    const reflectedSpread = 0.62;
+    const reflectedShift = (time*34)%30;
+    for(let i=0;i<10;i++){
+      const rr = 28 + i*26 + reflectedShift;
+      const alpha = lim((0.38 - i*0.027)*reflRatio*amp, 0.025, 0.42);
+      ctx.strokeStyle = `rgba(124,255,124,${alpha})`;
+      ctx.lineWidth = wallType==="rigid" ? 2.0 : 1.15;
+      ctx.beginPath();
+      ctx.arc(wallX, hitY, rr, reflectedDir-reflectedSpread, reflectedDir+reflectedSpread);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Echo label placed along the outgoing reflected wave/ray.
+    ctx.save();
+    ctx.fillStyle = wallType==="rigid" ? "rgba(124,255,124,.95)" : "rgba(124,255,124,.62)";
+    ctx.font = "bold 14px Sarabun, system-ui";
+    ctx.textAlign = "center";
+    const echoLabelX = wallX - Math.cos(thetaUsed)*250;
+    const echoLabelY = hitY + Math.sin(thetaUsed)*250 + 18;
+    ctx.fillText("Echo path", echoLabelX, echoLabelY);
+    ctx.font = "12px Sarabun, system-ui";
+    ctx.fillText("(คลื่นสะท้อนออกจากผนัง)", echoLabelX, echoLabelY+18);
+    ctx.restore();
 
     // Moving energy packets along both ray paths.
     if(vizState.running){
       const u=(time*0.11)%1;
-      coreDot(ctx,inX+(wallX-inX)*u,inY+(hitY-inY)*u,5+amp*2,rayColor);
-      coreDot(ctx,wallX+(outX-wallX)*u,hitY+(outY-hitY)*u,5+amp*2,reflColor);
+      coreDot(ctx,inX+(wallX-inX)*u,inY+(hitY-inY)*u,5+amp*2,"rgba(255,92,171,1)");
+      coreDot(ctx,wallX+(outX-wallX)*u,hitY+(outY-hitY)*u,(4.2+amp*1.7)*reflRatio,`rgba(124,255,124,${0.55+0.35*reflRatio})`);
     }else{
-      coreDot(ctx,wallX,hitY,6,rayColor);
+      coreDot(ctx,wallX,hitY,6,"rgba(255,92,171,1)");
     }
 
-    // Angle arcs.
+    // Angle arcs with numerical values in the scene.
     ctx.save();
-    ctx.strokeStyle="rgba(255,160,210,.88)";
+    ctx.strokeStyle="rgba(255,160,210,.90)";
     ctx.lineWidth=2;
-    ctx.beginPath(); ctx.arc(wallX,hitY,56,Math.PI,Math.PI+theta); ctx.stroke();
-    ctx.beginPath(); ctx.arc(wallX,hitY,83,Math.PI-theta,Math.PI); ctx.stroke();
-    ctx.fillStyle="#ff91c8";
-    ctx.font="bold 18px Sarabun, system-ui";
+    ctx.beginPath(); ctx.arc(wallX,hitY,56,Math.PI,Math.PI+thetaUsed); ctx.stroke();
+    ctx.beginPath(); ctx.arc(wallX,hitY,84,Math.PI-thetaUsed,Math.PI); ctx.stroke();
+    ctx.fillStyle="#ffabd3";
+    ctx.font="bold 16px Sarabun, system-ui";
     ctx.textAlign="center";
-    ctx.fillText("θᵢ",wallX-78,hitY-18);
-    ctx.fillText("θᵣ",wallX-78,hitY+48);
+    ctx.fillText(`θᵢ = ${thetaDeg.toFixed(0)}°`,wallX-92,hitY-16);
+    ctx.fillText(`θᵣ = ${thetaDeg.toFixed(0)}°`,wallX-94,hitY+52);
     ctx.restore();
 
     // Text labels like the reference mockup.
     ctx.save();
     ctx.font="bold 14px Sarabun, system-ui";
     ctx.textAlign="left";
-    ctx.fillStyle=rayColor;
-    ctx.fillText("Incident Ray",inX+55,inY-28);
+    ctx.fillStyle="#ff7cbc";
+    ctx.fillText("Incident Ray",inX+18,Math.max(inY-24,panel.y+58));
     ctx.font="12px Sarabun, system-ui";
-    ctx.fillText("(รังสีตกกระทบ)",inX+55,inY-12);
-    ctx.fillStyle=reflColor;
+    ctx.fillText("(รังสีตกกระทบ)",inX+18,Math.max(inY-8,panel.y+74));
+    ctx.fillStyle=wallType==="rigid"?"rgba(124,255,124,0.95)":"rgba(124,255,124,0.62)";
     ctx.font="bold 14px Sarabun, system-ui";
-    ctx.fillText("Reflected Ray",outX+54,outY+3);
+    ctx.fillText("Reflected Ray",outX+42,outY+4);
     ctx.font="12px Sarabun, system-ui";
-    ctx.fillText("(รังสีสะท้อน)",outX+54,outY+19);
+    ctx.fillText("(รังสีสะท้อน)",outX+42,outY+20);
     ctx.fillStyle="#e8f5ff";
     ctx.font="bold 13px Sarabun, system-ui";
-    ctx.fillText(wallType==="rigid"?"Rigid Wall":"Absorbing Wall",wallX+46,hitY-10);
+    ctx.fillText(wallType==="rigid"?"Rigid Wall":"Soft / Absorbing Wall",wallX+46,hitY-10);
     ctx.font="12px Sarabun, system-ui";
-    ctx.fillText(wallType==="rigid"?"(ผนังแข็ง)":"(ดูดซับบางส่วน)",wallX+46,hitY+9);
+    ctx.fillText(wallType==="rigid"?"(ผนังแข็ง)":"(ผนังดูดซับบางส่วน)",wallX+46,hitY+9);
     ctx.restore();
 
     // Formula badge and reflection strength.
@@ -198,10 +249,10 @@ function drawRebuiltTopic(ctx,c,p,w,h,mode){
     ctx.textAlign="center";
     ctx.fillText("θᵢ = θᵣ",bx+135,by+31);
     ctx.font="13px Sarabun, system-ui";
-    ctx.fillText("มุมตกกระทบ = มุมสะท้อน",bx+135,by+54);
+    ctx.fillText(`มุมตกกระทบ = มุมสะท้อน = ${thetaDeg.toFixed(0)}°`,bx+135,by+54);
     ctx.restore();
 
-    coreMetricCard(ctx,panel.x+panel.w-345,panel.y+panel.h-112,250,80,"Reflection Strength",`${Math.round(reflRatio*100)}%`,"ขึ้นกับชนิดผนังและแอมพลิจูด","#7cff7c");
+    coreMetricCard(ctx,panel.x+panel.w-345,panel.y+panel.h-112,250,80,"Reflection Strength",`${Math.round(reflRatio*100)}%`,`ผนัง ${wallType==="rigid"?"แข็งสะท้อนมาก":"ดูดซับสะท้อนน้อย"}`,"#7cff7c");
   } else if(mode==="soundRefraction"){
     const dT=vNum("vizTempDiff",15), angle=vNum("vizAngle",25); vText("vizTempDiffLabel",dT.toFixed(0)+" °C"); vText("vizAngleLabel",angle.toFixed(0)+"°");
     panel=corePanel(ctx,w,h,"Sound Refraction (การหักเหของเสียง)"); cx=w/2; cy=panel.y+panel.h*.50;
