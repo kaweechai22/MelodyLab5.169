@@ -1,0 +1,17 @@
+{
+  "version": "v5.207",
+  "base": "v5.206",
+  "added": "Rebuilt Beats visualizer page",
+  "physics": [
+    "Beat frequency f_b = |f2 - f1|",
+    "Beat period T_b = 1/f_b",
+    "Envelope represents relative loudness",
+    "Visual waveform is time-scaled for teaching"
+  ],
+  "checks": [
+    "visualizer_beatsViz inline script",
+    "app.js",
+    "sw.js",
+    "link refs"
+  ]
+}

@@ -1,14 +1,66 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MelodyLab v5.116 - Beats (บีตส์)</title><meta name="description" content="MelodyLab ห้องทดลองเสียงและเก็บข้อมูล ด้วยมือถือ"><meta name="theme-color" content="#0f172a"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="style.css"><meta name="melodylab-build-version" content="v5.116-clean-release"></head><body class="detailPage page-visualizer"><header><div class="wrap nav detailNav"><button class="backBtn" onclick="location.href='visualizer.html'">←</button><a class="brand" href="index.html"><img src="icon-192.png" alt="MelodyLab"><span>Beats (บีตส์)</span></a></div></header>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MelodyLab v5.207 - Beats (บีตส์)</title>
+  <meta name="description" content="MelodyLab ห้องทดลองเสียงและเก็บข้อมูล ด้วยมือถือ">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <meta name="melodylab-build-version" content="v5.207-beats-visualizer">
+  <style>
+    .beatReadoutBar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+    .beatReadoutBar>div{border:1px solid rgba(148,163,184,.18);background:rgba(15,23,42,.48);border-radius:14px;padding:9px 11px;min-height:56px}
+    .beatReadoutBar label{display:block;color:#94a3b8;font-size:.78rem;line-height:1.2;margin-bottom:4px}
+    .beatReadoutBar b{display:block;color:#e5eef8;font-size:1rem;line-height:1.18}
+    .versionBadge{display:inline-block;margin-top:10px;padding:5px 10px;border-radius:999px;border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.14);color:#bbf7d0;font-weight:800;font-size:.80rem}
+    .beatLegendLine{width:30px;height:5px;border-radius:999px;display:inline-block;flex:0 0 30px}
+    .beatLegendLine.f1{background:#38bdf8;box-shadow:0 0 12px rgba(56,189,248,.45)}
+    .beatLegendLine.f2{background:#ef4444;box-shadow:0 0 12px rgba(239,68,68,.42)}
+    .beatLegendLine.sum{background:#22c55e;box-shadow:0 0 12px rgba(34,197,94,.42)}
+    .beatLegendLine.env{background:#f59e0b;box-shadow:0 0 12px rgba(245,158,11,.42)}
+    .neonParamRow .paramIcon{color:#f8fafc;border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 24px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.10)}
+    .f1Row .paramIcon{background:linear-gradient(135deg,#38bdf8,#06b6d4)}
+    .f2Row .paramIcon{background:linear-gradient(135deg,#ef4444,#f87171)}
+    .ampRow .paramIcon{background:linear-gradient(135deg,#22c55e,#86efac)}
+    .timeRow .paramIcon{background:linear-gradient(135deg,#8b5cf6,#c084fc)}
+    .templateInsightCard li{line-height:1.55}
+    .speedButtonsStandalone{display:flex;gap:8px;align-items:center;justify-content:flex-start;margin:6px 0 0 64px;position:relative;z-index:2}
+    .speedButtons button{border:1px solid rgba(148,163,184,.24);background:rgba(15,23,42,.76);color:#e5eef8;border-radius:10px;padding:5px 10px;font-size:.78rem;line-height:1.1;font-weight:800;cursor:pointer;touch-action:manipulation;min-width:58px;height:30px}
+    .timeRow input[type=range]{touch-action:pan-x;min-width:0}
+    @media(max-width:760px){
+      .beatReadoutBar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .beatReadoutBar>div{min-height:auto;padding:9px 10px}
+      .beatReadoutBar>div:last-child{grid-column:1/-1}
+      .speedButtonsStandalone{margin-left:62px;margin-top:8px}
+      .speedButtons button{min-width:58px;height:30px;padding:5px 9px;font-size:.78rem}
+    }
+  </style>
+</head>
+<body class="detailPage page-visualizer">
+<header>
+  <div class="wrap nav detailNav">
+    <button class="backBtn" onclick="location.href='visualizer.html'">←</button>
+    <a class="brand" href="index.html"><img src="icon-192.png" alt="MelodyLab"><span>Beats (บีตส์)</span></a>
+  </div>
+</header>
 <main class="wrap detailMain" data-current="visualizer">
 <section class="section activeDetail visualizerSinglePage visualizerTemplatePage longitudinalFocusPage rebuiltTopicPage" id="visualizer" data-viz-mode="beatsViz">
   <div class="sectionHead templateHead">
-    <div><h2>Beats (บีตส์)</h2><p class="sectionLead">เสียงสองความถี่ใกล้กันทำให้ความดังเพิ่ม–ลดเป็นจังหวะ</p></div>
+    <div>
+      <h2>Beats (บีตส์)</h2>
+      <p class="sectionLead">บีตส์เกิดจากเสียงสองความถี่ใกล้กันซ้อนทับกัน ทำให้ความดังเพิ่ม–ลดเป็นจังหวะ โดยความถี่บีตเท่ากับ f<sub>b</sub> = |f₂ − f₁|</p>
+      <span class="versionBadge">v5.207 • beats visualizer</span>
+    </div>
   </div>
   <div class="visualizerTemplateGrid longitudinalFocusGrid">
     <div class="card mainViz templateMainViz longitudinalMainViz">
       <div class="vizMediaFrame">
         <div class="vizSingleModeLabel"><span>🎚️</span> Beats (บีตส์)</div>
-        <canvas id="visualizerCanvas" width="1200" height="440"></canvas>
+        <canvas id="visualizerCanvas" width="1200" height="470" aria-label="ภาพจำลองการเกิดบีตส์"></canvas>
         <div class="vizPlayerBar embeddedPlayerBar" aria-label="ปุ่มควบคุมภาพจำลอง">
           <div class="playerCluster playerCenter playerCenterOnly">
             <button id="vizPlayBtn" class="playerBtn playerPrimary playerPlay" title="เล่น" aria-label="เล่น"><span class="playerGlyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6.5v11l9-5.5-9-5.5z"/></svg></span></button>
@@ -17,52 +69,209 @@
           </div>
         </div>
       </div>
-      <details class="explainDetails"><summary>คำอธิบายเพิ่มเติม</summary>
+      <div class="beatReadoutBar templateReadout" aria-label="ค่าที่อ่านได้จากภาพจำลอง">
+        <div><label>ความถี่ที่ 1</label><b id="readF1">--</b></div>
+        <div><label>ความถี่ที่ 2</label><b id="readF2">--</b></div>
+        <div><label>ความถี่บีต fᵦ</label><b id="readBeat">--</b></div>
+        <div><label>คาบบีต Tᵦ</label><b id="readPeriod">--</b></div>
+        <div><label>สถานะ</label><b id="readState">--</b></div>
+      </div>
+      <details class="explainDetails" open><summary>หลักฟิสิกส์และสิ่งที่ควรสังเกต</summary>
         <div class="detailsBody"><div class="templateUnderCanvas explainGrid">
-          <div class="templateInsightCard"><div class="insightTitle">สิ่งที่สังเกตได้</div><ul>
-                <li>ความถี่บีต f_b = |f₂ - f₁|</li>
-                <li>กราฟ envelope แสดงความดังที่ค่อย ๆ เพิ่มและลด</li>
-                <li>ใช้เชื่อมโยงกับการเทียบเสียงเครื่องดนตรี</li>
+          <div class="templateInsightCard"><div class="insightTitle">หลักฟิสิกส์ที่ใช้</div><ul>
+            <li>ความถี่บีต: <b>fᵦ = |f₂ − f₁|</b></li>
+            <li>คาบบีต: <b>Tᵦ = 1/fᵦ</b></li>
+            <li>เมื่อ envelope มีค่าสูง เสียงจะดังขึ้น; เมื่อ envelope ต่ำ เสียงจะค่อยลง</li>
           </ul></div>
           <div class="templateLegendCard">
-            <div class="legendRow"><span class="legendDot cyan"></span><span>แนวคลื่น/รังสีเสียง</span></div>
-            <div class="legendRow"><span class="legendDot red"></span><span>จุดสังเกตหรือค่าที่กำลังพิจารณา</span></div>
-            <div class="legendRow"><span class="legendMark">→</span><span>ทิศทางการเคลื่อนที่ของเสียง</span></div>
+            <div class="legendRow"><span class="beatLegendLine f1"></span><span>คลื่นเสียง f₁</span></div>
+            <div class="legendRow"><span class="beatLegendLine f2"></span><span>คลื่นเสียง f₂</span></div>
+            <div class="legendRow"><span class="beatLegendLine sum"></span><span>คลื่นรวม</span></div>
+            <div class="legendRow"><span class="beatLegendLine env"></span><span>ซองคลื่น / ความดัง</span></div>
           </div>
+          <div class="templateInsightCard"><div class="insightTitle">ข้อจำกัดของแบบจำลอง</div><ul>
+            <li>ใช้คลื่นไซน์สองขบวนที่มีแอมพลิจูดเท่ากัน เพื่อเน้นหลักการเกิดบีตส์</li>
+            <li>รูปคลื่นถูกย่อสเกลเวลาเพื่อการสอน ไม่ได้แสดงจำนวนรอบจริงของเสียง 440 Hz</li>
+          </ul></div>
         </div></div>
       </details>
     </div>
     <div class="card controlViz templateControlViz longitudinalControlViz neonControlViz">
-      <div class="panelTitleStack"><h3>Parameters (ตัวแปรควบคุม)</h3><p class="panelSubtext">ปรับค่าแล้วสังเกตการเปลี่ยนแปลงของภาพจำลอง</p></div>
-      <div class="field richField neonParamRow">
-        <div class="paramIcon">f₁</div>
-        <div class="paramText"><label>ความถี่ที่ 1</label><small>Frequency f₁</small></div>
-        <input id="vizFreq" type="range" min="200" max="1000" step="1" value="440">
-        <div class="paramValueWrap"><span id="vizFreqLabel" class="valueBadge">440 Hz</span></div>
-      </div>
-      <div class="field richField neonParamRow">
-        <div class="paramIcon">f₂</div>
-        <div class="paramText"><label>ความถี่ที่ 2</label><small>Frequency f₂</small></div>
-        <input id="vizFreq2" type="range" min="200" max="1000" step="1" value="444">
-        <div class="paramValueWrap"><span id="vizFreq2Label" class="valueBadge">444 Hz</span></div>
-      </div>
-      <div class="field richField neonParamRow">
-        <div class="paramIcon">A</div>
-        <div class="paramText"><label>แอมพลิจูด</label><small>Amplitude A</small></div>
-        <input id="vizAmp" type="range" min="0.2" max="1.5" step="0.05" value="0.9">
-        <div class="paramValueWrap"><span id="vizAmpLabel" class="valueBadge">0.90</span></div>
-      </div>
-      <div class="field richField neonParamRow">
-        <div class="paramIcon">◷</div>
-        <div class="paramText"><label>อัตราเวลา</label><small>Time Speed</small></div>
-        <input id="vizTimeSpeed" type="range" min="0.10" max="3.0" step="0.10" value="1.0">
-        <div class="paramValueWrap"><span id="vizTimeLabel" class="valueBadge">1.0×</span></div>
-      </div>
+      <div class="panelTitleStack"><h3>Parameters (ตัวแปรควบคุม)</h3><p class="panelSubtext">ปรับ f₁ และ f₂ ให้ใกล้กัน แล้วสังเกตจังหวะดัง–ค่อยของคลื่นรวม</p></div>
+      <div class="field richField neonParamRow f1Row"><div class="paramIcon">f₁</div><div class="paramText"><label>ความถี่ที่ 1</label><small>เสียงตัวที่ 1</small></div><input id="vizFreq1" type="range" min="200" max="1000" step="1" value="440"><div class="paramValueWrap"><span id="vizFreq1Label" class="valueBadge">--</span></div></div>
+      <div class="field richField neonParamRow f2Row"><div class="paramIcon">f₂</div><div class="paramText"><label>ความถี่ที่ 2</label><small>เสียงตัวที่ 2</small></div><input id="vizFreq2" type="range" min="200" max="1000" step="1" value="444"><div class="paramValueWrap"><span id="vizFreq2Label" class="valueBadge">--</span></div></div>
+      <div class="field richField neonParamRow ampRow"><div class="paramIcon">A</div><div class="paramText"><label>แอมพลิจูด</label><small>ขนาดการสั่นของเสียงทั้งสอง</small></div><input id="vizAmp" type="range" min="0.20" max="1.50" step="0.05" value="0.90"><div class="paramValueWrap"><span id="vizAmpLabel" class="valueBadge">--</span></div></div>
+      <div class="field richField neonParamRow timeRow"><div class="paramIcon">◷</div><div class="paramText"><label>ความเร็วแอนิเมชัน</label><small>ควบคุมความเร็วภาพ ไม่ผูกกับความถี่เสียงจริง</small></div><input id="vizTimeSpeed" type="range" min="0.1" max="1.0" step="0.1" value="0.3"><div class="paramValueWrap"><span id="vizTimeLabel" class="valueBadge">--</span></div></div>
+      <div class="speedButtons speedButtonsStandalone"><button type="button" id="vizSpeedDown">ช้าลง</button><button type="button" id="vizSpeedUp">เร็วขึ้น</button></div>
     </div>
   </div>
-  <div class="card localExportCard templateExportCard" data-export-name="beatsViz">
-    <div class="panelTitleStack"><h3>ส่งออกข้อมูล</h3><p class="panelSubtext">บันทึกค่าพารามิเตอร์และภาพจำลองจากหน้านี้</p></div>
+  <div class="card templateDataCard localDataCard" id="vizLogCard">
+    <div class="sectionHead compactHead"><div><h3>ส่งออกข้อมูล</h3><p class="sub">บันทึกค่าพารามิเตอร์และภาพจำลองจากหน้านี้</p></div></div>
     <div class="actions"><button class="secondary localCaptureBtn">บันทึกค่าปัจจุบัน</button><button class="secondary localDownloadBtn">ดาวน์โหลด CSV</button><button id="vizExportBtn" class="secondary localPngBtn">บันทึกภาพ PNG</button><button class="secondary localClearBtn">ล้างข้อมูลหน้านี้</button></div>
     <div class="tableWrap localLogWrap"><table><thead><tr class="localHead"></tr></thead><tbody class="localBody"></tbody></table></div>
   </div>
-</section></main><script src="app.js"></script></body></html>
+</section>
+</main>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const state = {running:true,time:0,last:performance.now(),raf:0,logs:[]};
+function fmt(v,n=2){return Number(v).toFixed(n);}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function params(){
+  const f1=Number($('vizFreq1')?.value||440);
+  const f2=Number($('vizFreq2')?.value||444);
+  const A=Number($('vizAmp')?.value||0.90);
+  const timeSpeed=Number($('vizTimeSpeed')?.value||0.3);
+  const df=Math.abs(f2-f1);
+  const fMean=(f1+f2)/2;
+  const Tb=df>0?1/df:Infinity;
+  let stateText='ไม่มีบีตส์';
+  if(df===0) stateText='ความถี่เท่ากัน ไม่มีบีตส์';
+  else if(df<=3) stateText='บีตส์ช้า ชัดเจน';
+  else if(df<=10) stateText='บีตส์ชัด';
+  else if(df<=20) stateText='บีตส์เร็ว';
+  else stateText='ต่างความถี่มาก บีตส์สังเกตยาก';
+  return {f1,f2,A,timeSpeed,df,fMean,Tb,stateText};
+}
+function updateLabels(){
+  const p=params();
+  $('vizFreq1Label').textContent=`${Math.round(p.f1)} Hz`;
+  $('vizFreq2Label').textContent=`${Math.round(p.f2)} Hz`;
+  $('vizAmpLabel').textContent=fmt(p.A,2);
+  $('vizTimeLabel').textContent=`${fmt(p.timeSpeed,1)}×`;
+  $('readF1').textContent=`${Math.round(p.f1)} Hz`;
+  $('readF2').textContent=`${Math.round(p.f2)} Hz`;
+  $('readBeat').textContent=`${fmt(p.df,1)} Hz`;
+  $('readPeriod').textContent=Number.isFinite(p.Tb)?`${fmt(p.Tb,3)} s`:'∞';
+  $('readState').textContent=p.stateText;
+}
+function canvasScale(canvas){
+  const dpr=Math.max(1,window.devicePixelRatio||1);
+  const rect=canvas.getBoundingClientRect();
+  const targetW=Math.max(600,Math.round(rect.width*dpr));
+  const targetH=Math.max(260,Math.round(rect.height*dpr));
+  if(canvas.width!==targetW||canvas.height!==targetH){canvas.width=targetW;canvas.height=targetH;}
+  return {w:canvas.width,h:canvas.height,dpr};
+}
+function background(ctx,w,h){
+  const g=ctx.createLinearGradient(0,0,w,h);
+  g.addColorStop(0,'#071426'); g.addColorStop(.55,'#11113a'); g.addColorStop(1,'#1b0f32');
+  ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='rgba(56,189,248,.12)'; ctx.lineWidth=1;
+  for(let x=0;x<w;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+  for(let y=0;y<h;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+}
+function rr(ctx,x,y,w,h,r,fill,stroke){
+  const q=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+q,y);ctx.arcTo(x+w,y,x+w,y+h,q);ctx.arcTo(x+w,y+h,x,y+h,q);ctx.arcTo(x,y+h,x,y,q);ctx.arcTo(x,y,x+w,y,q);ctx.closePath();if(fill)ctx.fill();if(stroke)ctx.stroke();
+}
+function drawLine(ctx,pts,color,lw=2,alpha=1,dash=null){
+  ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.lineJoin='round';ctx.lineCap='round';if(dash)ctx.setLineDash(dash);ctx.beginPath();pts.forEach((p,i)=>{if(i===0)ctx.moveTo(p[0],p[1]);else ctx.lineTo(p[0],p[1]);});ctx.stroke();ctx.restore();
+}
+function drawDot(ctx,x,y,r,color){
+  ctx.save();ctx.fillStyle=color;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();
+}
+function draw(){
+  const canvas=$('visualizerCanvas'); if(!canvas)return;
+  const {w,h}=canvasScale(canvas), ctx=canvas.getContext('2d'), p=params();
+  updateLabels(); background(ctx,w,h);
+  const left=94,right=w-54,plotW=right-left;
+  const lanes=[86,202,342];
+  const ampPx=28*p.A;
+  const viewSeconds=2.0;
+  const beatPhase=2*Math.PI*state.time;
+  const dfForView=Math.max(0.2,p.df);
+  const cycles1=12;
+  const cycles2=12 + Math.sign(p.f2-p.f1)*clamp(p.df*0.22,-8,8);
+  const labels=[['คลื่นเสียง f₁','#38bdf8'],['คลื่นเสียง f₂','#ef4444'],['คลื่นรวม','#22c55e']];
+  labels.forEach((arr,i)=>{
+    const y0=lanes[i];
+    ctx.strokeStyle='rgba(226,232,240,.18)'; ctx.setLineDash([6,6]); ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(left,y0); ctx.lineTo(right,y0); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='rgba(2,6,23,.44)'; ctx.strokeStyle='rgba(148,163,184,.16)'; rr(ctx,14,y0-25,132,30,12,true,true);
+    ctx.strokeStyle=arr[1]; ctx.lineWidth=3.4; ctx.beginPath(); ctx.moveTo(24,y0-10); ctx.lineTo(54,y0-10); ctx.stroke();
+    ctx.fillStyle='rgba(226,232,240,.95)'; ctx.font='800 12px system-ui,sans-serif'; ctx.fillText(arr[0],62,y0-5);
+  });
+  function makePts(fn,y0,scale=1,step=3){
+    const pts=[];
+    for(let i=0;i<=plotW;i+=step){
+      const x=left+i;
+      const u=i/plotW;
+      pts.push([x,y0-fn(u)*scale]);
+    }
+    return pts;
+  }
+  const wave1=u=>Math.sin(2*Math.PI*(cycles1*u)-beatPhase);
+  const wave2=u=>Math.sin(2*Math.PI*(cycles2*u)-beatPhase);
+  const envelope=u=>Math.cos(Math.PI*dfForView*viewSeconds*u - beatPhase*.18);
+  const sum=u=>(wave1(u)+wave2(u))*0.55;
+  drawLine(ctx,makePts(wave1,lanes[0],ampPx),'#38bdf8',2.5);
+  drawLine(ctx,makePts(wave2,lanes[1],ampPx),'#ef4444',2.5);
+  drawLine(ctx,makePts(sum,lanes[2],ampPx),'#22c55e',3.2);
+  const envTop=makePts(u=>Math.abs(envelope(u)),lanes[2],ampPx*1.12,4);
+  const envBot=makePts(u=>-Math.abs(envelope(u)),lanes[2],ampPx*1.12,4);
+  drawLine(ctx,envTop,'#f59e0b',2.0,.9,[8,6]);
+  drawLine(ctx,envBot,'#f59e0b',2.0,.9,[8,6]);
+
+  const probeX=left+plotW*.50, probeU=.50;
+  ctx.save();ctx.strokeStyle='rgba(248,250,252,.40)';ctx.setLineDash([7,7]);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(probeX,28);ctx.lineTo(probeX,h-42);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='rgba(248,250,252,.90)';ctx.font='800 11px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('จุดสังเกต',probeX,22);ctx.restore();
+  drawDot(ctx,probeX,lanes[0]-wave1(probeU)*ampPx,5,'#38bdf8');
+  drawDot(ctx,probeX,lanes[1]-wave2(probeU)*ampPx,5,'#ef4444');
+  drawDot(ctx,probeX,lanes[2]-sum(probeU)*ampPx,6,'#22c55e');
+
+  const loudness=Math.abs(envelope(probeU));
+  ctx.save();
+  ctx.fillStyle='rgba(2,6,23,.56)';ctx.strokeStyle='rgba(148,163,184,.18)';rr(ctx,right-220,h-104,200,70,16,true,true);
+  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='800 13px system-ui,sans-serif';ctx.fillText('ความดังสัมพัทธ์ที่จุดสังเกต',right-204,h-78);
+  ctx.fillStyle='#f59e0b';ctx.fillRect(right-204,h-56,Math.max(2,160*loudness),10);
+  ctx.strokeStyle='rgba(245,158,11,.5)';ctx.strokeRect(right-204,h-56,160,10);
+  ctx.fillStyle='rgba(226,232,240,.9)';ctx.font='700 12px system-ui,sans-serif';ctx.fillText(`${fmt(loudness*100,0)}%`,right-38,h-47);
+  ctx.restore();
+}
+function tick(now){
+  const dt=Math.min(.05,(now-state.last)/1000);state.last=now;
+  if(state.running) state.time += dt*params().timeSpeed*0.22;
+  draw(); state.raf=requestAnimationFrame(tick);
+}
+function play(){state.running=true;} function pause(){state.running=false;} function reset(){state.time=0;state.last=performance.now();draw();}
+function row(){
+  const p=params();
+  return {timestamp:new Date().toISOString(),topic:'Beats',frequency_1_Hz:Math.round(p.f1),frequency_2_Hz:Math.round(p.f2),beat_frequency_Hz:Number(fmt(p.df,2)),beat_period_s:Number.isFinite(p.Tb)?Number(fmt(p.Tb,4)):null,amplitude:Number(fmt(p.A,2)),state:p.stateText};
+}
+function renderTable(){
+  const head=document.querySelector('.localHead'),body=document.querySelector('.localBody'); if(!head||!body)return;
+  const keys=['timestamp','frequency_1_Hz','frequency_2_Hz','beat_frequency_Hz','beat_period_s','amplitude','state'];
+  head.innerHTML=keys.map(k=>`<th>${k}</th>`).join('');
+  body.innerHTML=state.logs.map(r=>`<tr>${keys.map(k=>`<td>${r[k]??''}</td>`).join('')}</tr>`).join('');
+}
+function downloadCSV(){
+  if(!state.logs.length) state.logs.push(row());
+  const keys=Object.keys(state.logs[0]);
+  const csv=[keys.join(','),...state.logs.map(r=>keys.map(k=>JSON.stringify(r[k]??'')).join(','))].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='melodylab_beats_data.csv';a.click();URL.revokeObjectURL(a.href);
+}
+function savePNG(){
+  const c=$('visualizerCanvas'); if(!c)return;
+  const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='melodylab_beats.png';a.click();
+}
+function adjustSpeed(delta){
+  const el=$('vizTimeSpeed'); if(!el)return;
+  const next=Math.min(Number(el.max),Math.max(Number(el.min),Number(el.value)+delta));
+  el.value=next.toFixed(1); draw();
+}
+['vizFreq1','vizFreq2','vizAmp','vizTimeSpeed'].forEach(id=>{$(id)?.addEventListener('input',draw);$(id)?.addEventListener('change',draw);});
+$('vizPlayBtn')?.addEventListener('click',play);
+$('vizPauseBtn')?.addEventListener('click',pause);
+$('vizResetBtn')?.addEventListener('click',reset);
+$('vizSpeedDown')?.addEventListener('click',()=>adjustSpeed(-0.1));
+$('vizSpeedUp')?.addEventListener('click',()=>adjustSpeed(0.1));
+document.querySelector('.localCaptureBtn')?.addEventListener('click',()=>{state.logs.unshift(row());renderTable();});
+document.querySelector('.localDownloadBtn')?.addEventListener('click',downloadCSV);
+document.querySelector('.localPngBtn')?.addEventListener('click',savePNG);
+document.querySelector('.localClearBtn')?.addEventListener('click',()=>{state.logs=[];renderTable();});
+window.addEventListener('resize',draw);
+state.logs.push(row()); renderTable(); draw(); state.raf=requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
