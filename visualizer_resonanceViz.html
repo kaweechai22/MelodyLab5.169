@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MelodyLab v5.236 - Air Column Resonance: Response Curve (การสั่นพ้องของอากาศในท่อ: กราฟตอบสนอง)</title>
+  <title>MelodyLab v5.237 - Air Column Resonance: Response Curve (การสั่นพ้องของอากาศในท่อ: กราฟตอบสนอง)</title>
   <meta name="description" content="MelodyLab ห้องทดลองเสียงและเก็บข้อมูล ด้วยมือถือ">
   <meta name="theme-color" content="#0f172a">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
-  <meta name="melodylab-build-version" content="v5.236-air-column-resonance-band-status">
+  <meta name="melodylab-build-version" content="v5.237-air-column-resonance-speaker">
   <style>
     .resonancePage .versionBadge{display:inline-flex;margin-top:10px;padding:8px 14px;border-radius:999px;background:rgba(16,185,129,.14);border:1px solid rgba(52,211,153,.35);color:#bbf7d0;font-weight:900}
     .resCanvas{display:block;width:100% !important;height:min(66vh,560px) !important;min-height:450px !important;max-height:560px !important;aspect-ratio:auto !important}
@@ -85,7 +85,7 @@
     <div>
       <h2>12. Air Column Resonance: Response Curve (การสั่นพ้องของอากาศในท่อ: กราฟตอบสนอง)</h2>
       <p class="sectionLead">ปรับความถี่กระตุ้นแล้วดูยอดพ้องและการตอบสนองของอากาศในท่อ</p>
-      <span class="versionBadge">v5.236 • ช่วงความถี่สั่นพ้อง</span>
+      <span class="versionBadge">v5.237 • ลำโพงความถี่กระตุ้น</span>
     </div>
   </div>
 
@@ -350,6 +350,51 @@ function renderModeTable(p){
   });
   body.innerHTML=rows.join('');
 }
+
+function drawSpeaker(ctx,x,y,dir,p,timePhase){
+  ctx.save();
+  const color=p.status.color || '#22d3ee';
+  const bodyW=24, bodyH=34, horn=20;
+  ctx.fillStyle='rgba(15,23,42,.86)';
+  ctx.strokeStyle='rgba(148,163,184,.36)';
+  ctx.lineWidth=1.6;
+  rr(ctx,x-bodyW/2,y-bodyH/2,bodyW,bodyH,8,true,true);
+
+  ctx.beginPath();
+  if(dir>0){
+    ctx.moveTo(x+bodyW/2-2,y-14);ctx.lineTo(x+bodyW/2+horn,y-24);ctx.lineTo(x+bodyW/2+horn,y+24);ctx.lineTo(x+bodyW/2-2,y+14);
+  }else{
+    ctx.moveTo(x-bodyW/2+2,y-14);ctx.lineTo(x-bodyW/2-horn,y-24);ctx.lineTo(x-bodyW/2-horn,y+24);ctx.lineTo(x-bodyW/2+2,y+14);
+  }
+  ctx.closePath();
+  ctx.fillStyle='rgba(34,211,238,.22)';
+  ctx.strokeStyle='rgba(34,211,238,.75)';
+  ctx.fill();ctx.stroke();
+
+  const pulse=0.5+0.5*Math.sin(timePhase*2.0);
+  const cx=x+dir*(bodyW/2+horn+2);
+  const start=dir>0?-0.78:Math.PI-0.78;
+  const end=dir>0?0.78:Math.PI+0.78;
+  for(let i=0;i<3;i++){
+    const r=14+i*12+pulse*7;
+    ctx.globalAlpha=0.30+0.18*(2-i)/2;
+    ctx.strokeStyle=color;
+    ctx.lineWidth=2.3;
+    ctx.beginPath();
+    ctx.arc(cx,y,r,start,end);
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  ctx.fillStyle='rgba(15,23,42,.78)';
+  ctx.strokeStyle='rgba(148,163,184,.20)';
+  rr(ctx,x-54,y-58,108,30,11,true,true);
+  ctx.fillStyle='rgba(226,232,240,.96)';
+  ctx.font='900 10px system-ui,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(`ลำโพง f = ${fmt(p.f,0)} Hz`,x,y-39);
+  ctx.restore();
+}
+
 function drawTube(ctx,left,right,y,amp,p,mode,timePhase){
   const W=right-left, tubeTop=y-amp-30, tubeH=2*amp+60;
   ctx.save();
@@ -361,7 +406,7 @@ function drawTube(ctx,left,right,y,amp,p,mode,timePhase){
   rr(ctx,left,tubeTop,W,tubeH,Math.min(24,tubeH/2),true,true);
   const openEnd=x=>{ctx.strokeStyle='rgba(34,211,238,.82)';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(x,y,tubeH*.18,tubeH*.43,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='rgba(186,230,253,.70)';ctx.font='800 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายเปิด',x,y+tubeH*.54);};
   const closedEnd=x=>{ctx.strokeStyle='rgba(248,113,113,.86)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y-tubeH*.42);ctx.lineTo(x,y+tubeH*.42);ctx.stroke();ctx.lineWidth=1.2;for(let yy=y-tubeH*.40;yy<y+tubeH*.40;yy+=9){ctx.beginPath();ctx.moveTo(x-12,yy+10);ctx.lineTo(x,yy);ctx.stroke();}ctx.fillStyle='rgba(254,202,202,.70)';ctx.font='800 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายปิด',x,y+tubeH*.54);};
-  if(p.tube==='closed'){closedEnd(left);openEnd(right);}else{openEnd(left);openEnd(right);}
+  if(p.tube==='closed'){closedEnd(left);openEnd(right);drawSpeaker(ctx,right+48,y,-1,p,timePhase);}else{drawSpeaker(ctx,left-48,y,1,p,timePhase);openEnd(left);openEnd(right);}
   for(let i=0;i<=W;i+=4){
     const u=i/W, pr=pressureShape(p,u,mode)*Math.sin(timePhase)*p.amp;
     const a=Math.min(.45,Math.abs(pr)*.34);
@@ -410,8 +455,8 @@ function draw(){
   const canvas=$('resCanvas');if(!canvas)return;
   const {w,h}=canvasScale(canvas),ctx=canvas.getContext('2d');background(ctx,w,h);
   const p=params();updateLabels();
-  const left=Math.max(56,Math.round(w*0.12)), maxRight=w-Math.max(38,Math.round(w*0.07)), maxPlot=maxRight-left;
-  const lengthScale=0.45+0.55*clamp((p.L-0.20)/(2.00-0.20),0,1), right=left+maxPlot*lengthScale;
+  const left=Math.max(92,Math.round(w*0.16)), maxRight=w-Math.max(108,Math.round(w*0.16)), maxPlot=maxRight-left;
+  const lengthScale=0.48+0.52*clamp((p.L-0.20)/(2.00-0.20),0,1), right=left+maxPlot*lengthScale;
   const tubeY=Math.round(h*0.30), tubeAmp=Math.min(42,h*0.085);
   drawTube(ctx,left,right,tubeY,tubeAmp,p,p.best.mode,2*Math.PI*state.time);
   drawResponse(ctx,26,Math.round(h*0.57),w-52,Math.round(h*0.34),p);
